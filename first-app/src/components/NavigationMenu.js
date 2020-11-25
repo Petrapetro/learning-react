@@ -40,6 +40,14 @@ function NavigationMenu(props) {
                             onClick={props.closeMenu}
                         >Play tic-tac-toe</Link>
                     </li>
+
+                    <li>
+                        <Link
+                            to="/calculator"
+                            className="text-blue-500 py-3 border-b block"
+                            onClick={props.closeMenu}
+                        >Calculator</Link>
+                    </li>
                 </ul>
             </Router>
         </diy>

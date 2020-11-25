@@ -10,6 +10,7 @@ import Home from './Views/Home'
 import About from './Views/About'
 import Product from './Views/Product'
 import TicTacToe from './Views/TicTacToe'
+import Calculator from './Views/Calculator'
 
 
 function App() {
@@ -31,6 +32,9 @@ function App() {
             </Route>
             <Route path="/tic-tac-toe">
               <TicTacToe />
+            </Route>
+            <Route path="/Calculator">
+              <Calculator />
             </Route>
           </Switch>
         </div>
