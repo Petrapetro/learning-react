@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
-
+function BoildVerdict(props) {
+    if(props.temperature > 99) {
+        return (
+            <p>The water boils.</p>
+        )
+    } else{
+        return (
+            <p>The water doesn't boil.</p>
+        )
+    }
+}
 
 
 function Calculator() {
-    const [state, setState] = useState({ 
-        temperature: ""
-    });
+    const [temperature, setTemperature] = useState("");
 
     const handleChange = (e) => {
         e.preventDefault();
-        setState({temperature: e.target.value});
+        setTemperature(e.target.value);
       }
-
-      const temperature = state.temperature;
+    
+      let temp = temperature;
     return (
         <div>
             <h1 className="font-bold text-2xl mb-3">Calculator</h1>
@@ -23,9 +31,10 @@ function Calculator() {
                 <legend>The temperature of the water is: </legend>
                 <input
                 style={{border: "1px solid black"}} 
-                value={temperature}
-                onChange={() => handleChange()} />
+                value={temp}
+                onChange={(e) => handleChange(e)} />
             </fieldset>
+            <BoildVerdict temperature={temp}></BoildVerdict>
         </div>
     );
 }
