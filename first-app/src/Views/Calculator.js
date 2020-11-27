@@ -1,34 +1,59 @@
 import React, { useState } from 'react';
 
-function BoildVerdict(props) {
-    if (props.temperature > 99) {
-        return (
-            <p style={{ color: "red" }}>The water boils.</p>
-        )
-    } else if (props.temperature > 0) {
-        return (
-            <p style={{ color: "green" }}>The water doesn't boil and doesn't freeze.</p>
-        )
-    } else {
-        return (
-            <p style={{ color: "blue" }}>The water freezes.</p>
-        )
-    }
-}
-
 function toCelsius(fahrenheit) {
     return (fahrenheit - 32) * 5 / 9;
 }
 
 function toFahrenheit(celsius) {
-    return (celsius * 9 / 5) + 32;
+    if (celsius < -273.15) return '.';
+    return (celsius * 9) / 5 + 32;
 }
 
-function TemperatureInput(props) {
-    /*const [temperature, setTemperature] = useState({
-        temperature: props.temp
-    });*/
+function kelvinToCelsius(kelvin) {
+    if (kelvin < 0) return '.';
+  return kelvin - 273.15;
+}
 
+function kelvinToFahrenheit(kelvin) {
+    if (kelvin < 0) return '.';
+  return (kelvin - 273.15) * (9 / 5) + 32;
+}
+
+function celsiusToKelvin(celsius) {
+    if (celsius < -273.15) return '.';
+  return celsius + 273.15;;
+} 
+
+function fahrenheitToKelvin(fahrenheit) {
+    if (fahrenheit < -459.68) return '.';
+    return (fahrenheit + 459.67) * (5 / 9);;
+}
+
+function BoildVerdict(props) {
+    let temp;
+    if (props.scale === "f") {
+        temp = toCelsius(props.temperature)
+    } else if (props.scale === "k") {
+        temp = kelvinToCelsius(props.temperature)
+    } else if (props.scale === "c") {
+        temp = props.temperature
+    }
+        if (temp > 99) {
+            return (
+                <p style={{ color: "red" }}>The water boils.</p>
+            )
+        } else if (temp > 0) {
+            return (
+                <p style={{ color: "green" }}>The water doesn't boil and doesn't freeze.</p>
+            )
+        } else {
+            return (
+                <p style={{ color: "blue" }}>The water freezes.</p>
+            )
+        }
+    }
+
+function TemperatureInput(props) {
     let temp = props.temperature;
 
     function handleChange(e) {
@@ -37,7 +62,7 @@ function TemperatureInput(props) {
 
     return (
         <fieldset>
-            <legend>The temperature of the water is in {props.scaleNames}:</legend>
+            <legend>{props.scaleNames}:</legend>
             <input
                 style={{ border: "1px solid black" }}
                 value={temp}
@@ -53,39 +78,68 @@ function tryConvert(temperature, convert) {
         return '';
     }
     const output = convert(input);
-    const rounded = Math.round(output * 1000) / 1000;
-    return rounded.toString();
+    return Math.round(output * 1000) / 1000;
 }
 
 function Calculator() {
-    const [temperature, setTemperature] = useState(1);
+    const [temperature, setTemperature] = useState('');
     const [scale, setScale] = useState('c');
 
     const handleChangeCels = (e) => {
         setTemperature(e.target.value);
         setScale('c');
-        e.preventDefault();
+      
     }
 
     const handleChangeFahr = (e) => {
         setTemperature(e.target.value);
         setScale('f');
-        e.preventDefault();
+       
     }
 
-    const cels = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
-    const fahr = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+    const handleChangeKelv = (e) => {
+        setTemperature(e.target.value);
+        setScale('k');
+    }
+    
+    const fahr =
+        scale === 'c'
+        ? tryConvert(temperature, toFahrenheit)
+        : scale === 'k'
+        ? tryConvert(temperature, kelvinToFahrenheit) : temperature;
+    const cels =
+        scale === 'k'
+        ? tryConvert(temperature, kelvinToCelsius)
+        : scale === 'f'
+        ? tryConvert(temperature, toCelsius) : temperature;
+    const kelv =
+        scale === 'f'
+        ? tryConvert(temperature, fahrenheitToKelvin)
+        : scale === 'c'
+        ? tryConvert(temperature, celsiusToKelvin) : temperature;
 
     return (
         <div>
             <h1 className="font-bold text-2xl mb-3">Calculator</h1>
-            <p>
-                Celsius-Fahrenheit calculator
-            </p>
-            <TemperatureInput temperature={cels} scaleNames={"celsius"} onTemperatureChange={(e) => handleChangeCels(e)} />
-            <TemperatureInput temperature={fahr} scaleNames={"fahrenheit"} onTemperatureChange={(e) => handleChangeFahr(e)} />
+            <p>Add the temperature of water in diverse scales and you can see its state.</p>
+
+            <TemperatureInput 
+            temperature={cels} 
+            scaleNames={"celsius"} 
+            onTemperatureChange={(e) => handleChangeCels(e)} />
+
+            <TemperatureInput 
+            temperature={fahr} 
+            scaleNames={"fahrenheit"} 
+            onTemperatureChange={(e) => handleChangeFahr(e)} />
+
+            <TemperatureInput 
+            temperature={kelv} 
+            scaleNames={"kelvin"} 
+            onTemperatureChange={(e) => handleChangeKelv(e)} />
+
             <br />
-            <BoildVerdict temperature={temperature}></BoildVerdict>
+            <BoildVerdict temperature={temperature} scale={scale}></BoildVerdict>
         </div>
     );
 }
