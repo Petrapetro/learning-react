@@ -11,6 +11,7 @@ import About from './Views/About'
 import Product from './Views/Product'
 import TicTacToe from './Views/TicTacToe'
 import Calculator from './Views/Calculator'
+import Game from './Views/Game'
 
 
 function App() {
@@ -33,8 +34,11 @@ function App() {
             <Route path="/tic-tac-toe">
               <TicTacToe />
             </Route>
-            <Route path="/Calculator">
+            <Route path="/calculator">
               <Calculator />
+            </Route>
+            <Route path="/game">
+              <Game />
             </Route>
           </Switch>
         </div>
