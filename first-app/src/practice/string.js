@@ -12,7 +12,7 @@ function reverseString(word) {
   return reversedWord.join('')
 }
 //return str.split("").reverse().join("");
-console.log("Task 2: ",reverseString( toBeReversed));
+console.log("Task 2: ", reverseString(toBeReversed));
 
 // Accidentally I got the wrong URL for a funny subreddit. It's probably "odds" and not "bots"
 // Also, the URL is missing a crucial component, find out what it is and insert it too!
@@ -35,3 +35,11 @@ for (let i = 0; i < qouteArray.length; i++) {
 }
 quoteExtended = qouteArray.join(' ')
 console.log("Task 4: ", quoteExtended);
+
+let index = quote.indexOf("It")
+newQuote = quote.substring(0, index + "It".length ) + " always takes longer than" + 
+quote.substring(index + "it".length)
+console.log("Task 4: ", newQuote)
+
+let solution3 = quote.replace('It you', 'It always takes longer than you')
+console.log("Task 4: ", solution3)
