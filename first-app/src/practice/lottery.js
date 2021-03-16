@@ -1,7 +1,11 @@
 // Create a method that find the 5 most common lottery numbers in lottery.csv
 
 const fs = require('fs')
-const lottery = fs.readFileSync('./lottery.csv', 'utf8').toString().split("\n")
+try {
+  const lottery = fs.readFileSync('./lottery.csv', 'utf8').toString().split("\n")
+} catch (e) {
+  console.log({ e })
+}
 let lotteryMap = new Map()
 
 lottery.forEach((row) => {
